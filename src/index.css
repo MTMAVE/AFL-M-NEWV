@@ -1,0 +1,88 @@
+@import '@fontsource-variable/playfair-display';
+@import '@fontsource-variable/montserrat';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-montserrat text-charcoal antialiased;
+    /* Enable hardware acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    /* Prevent content shift */
+    overflow-y: scroll;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer utilities {
+  /* Optimize animations */
+  .transform-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform;
+  }
+
+  /* Prevent animation flicker */
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}
+
+/* Optimize transitions */
+.transition-smooth {
+  @apply transition-all duration-300 ease-in-out transform-gpu;
+}
+
+/* Optimize video performance */
+video {
+  @apply w-full h-full object-cover transform-gpu;
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform;
+}
+
+/* Prevent layout shift during image load */
+img {
+  @apply transform-gpu;
+  content-visibility: auto;
+}
+
+/* Optimize form elements */
+input, select, textarea {
+  @apply rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-smooth transform-gpu;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Optimize animations */
+.animate-on-scroll {
+  @apply opacity-0 transform-gpu translate-y-5 transition-smooth;
+  will-change: opacity, transform;
+}
+
+.animate-on-scroll.animate-fade-in {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Prevent scroll jank */
+.overflow-overlay {
+  overflow: overlay;
+  -webkit-overflow-scrolling: touch;
+}
